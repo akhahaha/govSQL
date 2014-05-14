@@ -101,13 +101,16 @@ WHERE
 *******************************************************************************/
 
 SELECT
-	name
+	COUNT(s.statecode)
 FROM
-	senators
-GROUP BY
-	name;
-
-/* Put your SQL for Q6 here */
+	(SELECT
+		name, statecode
+	FROM
+		senators
+	WHERE
+		name LIKE "John%" OR name LIKE "Jon%"
+	ORDER by
+		statecode) AS s;
 
 /*******************************************************************************
 Q7 - Find all the senators who were born in a year before the year their state
