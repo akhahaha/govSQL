@@ -18,35 +18,82 @@
  from most populated to least.
  ******************************************************************************/
 
-/* Put your SQL for Q1 here */
+SELECT
+	statecode, name, population_2010
+FROM
+	counties
+WHERE
+	population_2010 > 2,000,000
+ORDER BY
+	population_2010 DESC;
 
 /*******************************************************************************
  Q2 - Return a list of statecodes and the number of counties in that state,
  ordered from the least number of counties to the most.
 *******************************************************************************/
 
-/* Put your SQL for Q2 here */
+SELECT
+	statecode, COUNT(*)
+FROM
+	counties
+GROUP BY
+	statecode
+ORDER BY
+	COUNT (*);
 
 /*******************************************************************************
  Q3 - On average how many counties are there per state (return a single real
  number).
 *******************************************************************************/
 
-/* Put your SQL for Q3 here */
+SELECT
+	AVG(counts)
+FROM
+	(SELECT
+		statecode, COUNT(*)
+	FROM
+		counties
+	GROUP BY
+		statecode
+	ORDER BY
+		COUNT (*)) AS counts;
 
 /*******************************************************************************
  Q4 - Return a count of how many states have more than the average number of
  counties.
 *******************************************************************************/
 
-/* Put your SQL for Q4 here */
+SELECT
+	COUNT(counts)
+FROM
+	(SELECT
+		statecode, COUNT(*)
+	FROM
+		counties
+	GROUP BY
+		statecode
+	ORDER BY
+		COUNT (*)) AS counts
+WHERE
+	counts > AVG(counts);
 
 /*******************************************************************************
  Q5 - Data Cleaning - return the statecodes of states whose 2010 population does
  not equal the sum of the 2010 populations of their counties.
 *******************************************************************************/
 
-/* Put your SQL for Q5 here */
+SELECT
+	s.statecode
+FROM
+	states AS s,
+	(SELECT
+		counties, SUM(population_2010) AS total
+	FROM
+		counties
+	GROUP BY
+		statecode) AS c
+WHERE
+	s.population_2010 <> c.total;
 
 /*******************************************************************************
  Q6 - How many states have at least one senator whose first name is John,
