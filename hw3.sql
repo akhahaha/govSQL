@@ -63,7 +63,19 @@ FROM
  counties.
 *******************************************************************************/
 
-/* Put your SQL for Q4 here */
+SELECT
+	COUNT(counts)
+FROM
+	(SELECT
+		statecode, COUNT(*)
+	FROM
+		counties
+	GROUP BY
+		statecode
+	ORDER BY
+		COUNT (*)) AS counts
+WHERE
+	counts > AVG(counts);
 
 /*******************************************************************************
  Q5 - Data Cleaning - return the statecodes of states whose 2010 population does
