@@ -82,7 +82,18 @@ WHERE
  not equal the sum of the 2010 populations of their counties.
 *******************************************************************************/
 
-/* Put your SQL for Q5 here */
+SELECT
+	s.statecode
+FROM
+	states AS s,
+	(SELECT
+		counties, SUM(population_2010) AS total
+	FROM
+		counties
+	GROUP BY
+		statecode) AS c
+WHERE
+	s.population_2010 <> c.total;
 
 /*******************************************************************************
  Q6 - How many states have at least one senator whose first name is John,
