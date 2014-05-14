@@ -152,38 +152,6 @@ Q9 - Return the statecode of the state(s) that is (are) home to the most
 committee chairmen.
 *******************************************************************************/
 
-<<<<<<< HEAD
-SELECT 
-	stcode
-FROM (
-	SELECT
-		stcode, counts
-	FROM
-		(SELECT 
-			statecode AS stcode, COUNT(*) AS counts		/* returns number of chairmen per state */
-		FROM
-			(SELECT			/* returns table of chairmen and corresp committee and state */
-				C.chairman, C.name, S.statecode
-			FROM
-				committees C, senators S
-			WHERE
-				C.chairman = S.name) AS ChairState
-		GROUP BY
-			statecode) AS T
-	WHERE T.counts = (SELECT MAX(count)		/* returns max number of chairman in one state */
-						FROM
-							(SELECT 
-								statecode, COUNT(*) AS count
-							FROM
-								(SELECT
-									C.chairman, C.name, S.statecode
-								FROM
-									committees C, senators S
-								WHERE
-									C.chairman = S.name) AS ChairState
-							GROUP BY
-								statecode) AS X)) AS Y;
-=======
 SELECT
 	sc1.statecode
 FROM
@@ -209,7 +177,6 @@ WHERE
 					s.name = c.chairman
 				GROUP BY
 					s.statecode) sc2);
->>>>>>> f450bad658234b58419002f11b43102a5777a863
 
 /*******************************************************************************
 Q10 - Return the statecode of the state(s) that are not the home of any
