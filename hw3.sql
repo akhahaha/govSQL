@@ -120,6 +120,12 @@ SQLite you can extract the year as an integer using the following:
 "cast(strftime('%Y',admitted_to_union) as integer)."
 *******************************************************************************/
 
+SELECT
+	st.statecode, CAST(EXTRACT(Year FROM st.admitted_to_union) AS UNSIGNED) AS admitted_to_union, sen.name, sen.born
+FROM
+	states st, senators sen
+WHERE
+	st.statecode = sen.statecode AND born < CAST(EXTRACT(Year FROM st.admitted_to_union) AS UNSIGNED);
 
 /*******************************************************************************
 Q8 - Find all the counties of West Virginia (statecode WV) whose population
