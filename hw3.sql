@@ -18,7 +18,14 @@
  from most populated to least.
  ******************************************************************************/
 
-/* Put your SQL for Q1 here */
+SELECT
+	statecode, name, population_2010
+FROM
+	counties
+WHERE
+	population_2010 > 2,000,000
+ORDER BY
+	population_2010 DESC;
 
 /*******************************************************************************
  Q2 - Return a list of statecodes and the number of counties in that state,
