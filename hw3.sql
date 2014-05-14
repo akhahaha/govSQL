@@ -206,7 +206,11 @@ the parent committee's chairman, the id of the subcommittee, and name of that
 subcommittee's chairman.
 *******************************************************************************/
 
-/*Put your SQL for Q11 here */
+SELECT
+	c1.id, c1.chairman, c2.id, c2.chairman
+FROM
+	committees c1 INNER JOIN committees c2
+	ON (c1.id = c2.parent_committee AND c1.chairman = c2.chairman);
 
 /*******************************************************************************
 Q12 - For each subcommittee where the subcommittee’s chairman was born in an
