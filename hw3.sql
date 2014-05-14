@@ -23,7 +23,7 @@ SELECT
 FROM
 	counties
 WHERE
-	population_2010 > 2,000,000
+	population_2010 > 2000000
 ORDER BY
 	population_2010 DESC;
 
@@ -39,7 +39,7 @@ FROM
 GROUP BY
 	statecode
 ORDER BY
-	COUNT (*);
+	COUNT(*);
 
 /*******************************************************************************
  Q3 - On average how many counties are there per state (return a single real
@@ -47,16 +47,14 @@ ORDER BY
 *******************************************************************************/
 
 SELECT
-	AVG(counts)
+	AVG(s.counts)
 FROM
 	(SELECT
-		statecode, COUNT(*)
+		statecode, COUNT(*) AS counts
 	FROM
 		counties
 	GROUP BY
-		statecode
-	ORDER BY
-		COUNT (*)) AS counts;
+		statecode) AS s;
 
 /*******************************************************************************
  Q4 - Return a count of how many states have more than the average number of
@@ -64,18 +62,16 @@ FROM
 *******************************************************************************/
 
 SELECT
-	COUNT(counts)
+	COUNT(*)
 FROM
 	(SELECT
-		statecode, COUNT(*)
+		statecode, COUNT(*) AS counts
 	FROM
 		counties
 	GROUP BY
-		statecode
-	ORDER BY
-		COUNT (*)) AS counts
+		statecode) AS s
 WHERE
-	counts > AVG(counts);
+	s.counts > (SELECT AVG(s.counts) FROM s);
 
 /*******************************************************************************
  Q5 - Data Cleaning - return the statecodes of states whose 2010 population does
@@ -87,7 +83,7 @@ SELECT
 FROM
 	states AS s,
 	(SELECT
-		counties, SUM(population_2010) AS total
+		statecode, SUM(population_2010) AS total
 	FROM
 		counties
 	GROUP BY
