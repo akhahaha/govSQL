@@ -32,7 +32,14 @@ ORDER BY
  ordered from the least number of counties to the most.
 *******************************************************************************/
 
-/* Put your SQL for Q2 here */
+SELECT
+	statecode, COUNT(*)
+FROM
+	counties
+GROUP BY
+	statecode
+ORDER BY
+	COUNT (*);
 
 /*******************************************************************************
  Q3 - On average how many counties are there per state (return a single real
