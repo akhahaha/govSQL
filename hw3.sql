@@ -46,7 +46,17 @@ ORDER BY
  number).
 *******************************************************************************/
 
-/* Put your SQL for Q3 here */
+SELECT
+	AVG(counts)
+FROM
+	(SELECT
+		statecode, COUNT(*)
+	FROM
+		counties
+	GROUP BY
+		statecode
+	ORDER BY
+		COUNT (*)) AS counts;
 
 /*******************************************************************************
  Q4 - Return a count of how many states have more than the average number of
