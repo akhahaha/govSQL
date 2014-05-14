@@ -71,7 +71,13 @@ FROM
 	GROUP BY
 		statecode) AS s
 WHERE
-	s.counts > (SELECT AVG(s.counts) FROM s);
+	s.counts > (SELECT 
+				AVG(t.counts) FROM (SELECT
+										statecode, COUNT(*) AS counts
+									FROM
+										counties
+									GROUP BY
+										statecode) AS t);
 
 /*******************************************************************************
  Q5 - Data Cleaning - return the statecodes of states whose 2010 population does
@@ -97,7 +103,7 @@ WHERE
 *******************************************************************************/
 
 SELECT
-	COUNT(s.statecode)
+	COUNT(DISTINCT s.statecode)
 FROM
 	(SELECT
 		name, statecode
