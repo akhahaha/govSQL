@@ -135,7 +135,12 @@ shrunk between 1950 and 2010, and for each, return the name of the county and
 the number of people who left during that time (as a positive number).
 *******************************************************************************/
 
-/* Put your SQL for Q8 here */
+SELECT
+	name, ABS(population_2010 - population_1950) AS leaving_population
+FROM
+	counties
+WHERE
+	statecode LIKE "WV" AND population_2010 < population_1950;
 
 /*******************************************************************************
 Q9 - Return the statecode of the state(s) that is (are) home to the most
