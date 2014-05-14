@@ -50,11 +50,11 @@ SELECT
 	AVG(s.counts)
 FROM
 	(SELECT
-		statecode, COUNT(*) AS counts
+		COUNT(*) AS counts
 	FROM
 		counties
 	GROUP BY
-		statecode) AS s;
+		statecode) s;
 
 /*******************************************************************************
  Q4 - Return a count of how many states have more than the average number of
@@ -69,15 +69,16 @@ FROM
 	FROM
 		counties
 	GROUP BY
-		statecode) AS s
+		statecode) s
 WHERE
-	s.counts > (SELECT 
-				AVG(t.counts) FROM (SELECT
-										statecode, COUNT(*) AS counts
-									FROM
-										counties
-									GROUP BY
-										statecode) AS t);
+	s.counts > (SELECT
+					AVG(t.counts)
+				FROM	(SELECT
+							COUNT(*) AS counts
+						FROM
+							counties
+						GROUP BY
+							statecode) t);
 
 /*******************************************************************************
  Q5 - Data Cleaning - return the statecodes of states whose 2010 population does
@@ -93,9 +94,9 @@ FROM
 	FROM
 		counties
 	GROUP BY
-		statecode) AS c
+		statecode) c
 WHERE
-	s.population_2010 <> c.total;
+	s.statecode = c.statecode AND s.population_2010 <> c.total;
 
 /*******************************************************************************
  Q6 - How many states have at least one senator whose first name is John,
@@ -110,9 +111,9 @@ FROM
 	FROM
 		senators
 	WHERE
-		name LIKE "John%" OR name LIKE "Jon%"
+		name LIKE "John%" OR name LIKE "Johnny%" OR name LIKE "Jon%"
 	ORDER by
-		statecode) AS s;
+		statecode) s;
 
 /*******************************************************************************
 Q7 - Find all the senators who were born in a year before the year their state
@@ -123,11 +124,15 @@ SQLite you can extract the year as an integer using the following:
 *******************************************************************************/
 
 SELECT
-	st.statecode, CAST(EXTRACT(Year FROM st.admitted_to_union) AS UNSIGNED) AS admitted_to_union, sen.name, sen.born
+	st.statecode,
+	EXTRACT(Year FROM st.admitted_to_union) AS admitted_to_union,
+	sen.name,
+	sen.born
 FROM
 	states st, senators sen
 WHERE
-	st.statecode = sen.statecode AND born < CAST(EXTRACT(Year FROM st.admitted_to_union) AS UNSIGNED);
+	st.statecode = sen.statecode AND
+	born < EXTRACT(Year FROM st.admitted_to_union);
 
 /*******************************************************************************
 Q8 - Find all the counties of West Virginia (statecode WV) whose population
