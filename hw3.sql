@@ -219,4 +219,15 @@ parent committee, its chairman, the year the chairman was born, the id of the
 subcommittee, it’s chairman and the year the subcommittee chairman was born.
 ********************************************************************************/
 
-/* Put your SQL for Q12 here */
+SELECT
+	c1.id, c1.chairman, s1.born, c2.id, c2.chairman, s2.born
+FROM
+	committees c1
+INNER JOIN committees c2
+	ON (c1.id = c2.parent_committee)
+INNER JOIN senators s1
+	ON (c1.chairman = s1.name)
+INNER JOIN senators s2
+	ON (c2.chairman = s2.name)
+WHERE
+	s1.born > s2.born;
