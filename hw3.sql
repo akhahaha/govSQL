@@ -153,35 +153,30 @@ committee chairmen.
 *******************************************************************************/
 
 SELECT
-	statecode
+	sc1.statecode
 FROM
-	(SELECT 
-		statecode, COUNT(*) AS count
+	(SELECT
+		s.statecode, COUNT(*) AS ct
 	FROM
-		(SELECT
-			C.chairman, C.name, S.statecode
-		FROM
-			committees C, senators S
-		WHERE
-			C.chairman = S.name) AS ChairState
+		senators s,
+		committees c
+	WHERE
+		s.name = c.chairman
 	GROUP BY
-		statecode) AS T
-HAVING MAX(count);
-
-
-SELECT MAX(count)
-FROM
-	(SELECT 
-		statecode, COUNT(*) AS count
-	FROM
-		(SELECT
-			C.chairman, C.name, S.statecode
-		FROM
-			committees C, senators S
-		WHERE
-			C.chairman = S.name) AS ChairState
-	GROUP BY
-		statecode) AS T;
+		s.statecode) sc1
+WHERE
+	sc1.ct = (SELECT
+				MAX(sc2.ct)
+			FROM
+				(SELECT
+					COUNT(*) AS ct
+				FROM
+					senators s,
+					committees c
+				WHERE
+					s.name = c.chairman
+				GROUP BY
+					s.statecode) sc2);
 
 /*******************************************************************************
 Q10 - Return the statecode of the state(s) that are not the home of any
