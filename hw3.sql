@@ -183,7 +183,21 @@ Q10 - Return the statecode of the state(s) that are not the home of any
 committee chairmen.
 *******************************************************************************/
 
-/* Put your SQL for Q10 here */
+SELECT
+	st.statecode
+FROM
+	states st
+WHERE
+	st.statecode
+NOT IN (SELECT
+			s.statecode
+		FROM
+			senators s,
+			committees c
+		WHERE
+			s.name = c.chairman
+		GROUP BY
+			s.statecode);
 
 /*******************************************************************************
 Q11 Find all subcommittees whose chairman is the same as the chairman of its
