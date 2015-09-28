@@ -5,7 +5,7 @@ govSQL
 	Spring 2014
 
 	Alan Kha		904030522	akhahaha@gmail.com
-	Myquan Hong		403812570	myquan@yahoo.com
+	Myquan Hong		
 -------------------------------------------------------------------------------
 
 1. Install MySQL Server
